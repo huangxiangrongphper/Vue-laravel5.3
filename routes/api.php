@@ -33,8 +33,30 @@ Route::get('question/{id}/comments','CommentsController@question');
 Route::post('comment','CommentsController@store');
 
 Route::get('/todos', function () {
-    return response()->json([
-        ['id' => 1,'title' => 'Learn Vue js','completed' => false],
-        ['id' => 2,'title' => 'Go to Shop','completed' => false ],
-    ]);
+    return App\Task::all();
+});
+
+Route::get('/todo/{id}', function ($id) {
+    return App\Task::find($id);
+});
+
+Route::post('/todo/create',function (Request $request){
+    $data = ['title' => $request->get('title'),'completed' => 0];
+    $todo = App\Task::create($data);
+
+    return $todo;
+});
+
+Route::patch('/todo/{id}/completed',function ($id){
+    $todo = App\Task::find($id);
+    $todo->completed = ! $todo->completed;
+    $todo->save();
+
+    return $todo;
+});
+
+Route::delete('/todo/{id}/delete',function ($id){
+    $todo = App\Task::find($id);
+    $todo->delete();
+    return response()->json(['deleted']);
 });

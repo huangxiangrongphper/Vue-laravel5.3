@@ -31,3 +31,9 @@ $factory->define(App\Topic::class, function (Faker\Generator $faker) {
         'questions_count' => 1
     ];
 });
+
+$factory->define(App\Task::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->paragraph
+    ];
+});
